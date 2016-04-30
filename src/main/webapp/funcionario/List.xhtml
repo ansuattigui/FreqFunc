@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="../template.xhtml">
+        
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListFuncionarioTitle}"></h:outputText>
+        </ui:define>
+        
+        <ui:define name="body">
+            <h:form id="FuncionarioListForm">
+                <p:panel header="#{bundle.ListFuncionarioTitle}">
+                    <p:dataTable id="datalist" value="#{funcionarioController.items}" var="item"
+                                 selectionMode="single" selection="#{funcionarioController.selected}"
+                                 paginator="true" paginatorPosition="bottom"
+                                 rowKey="#{item.id}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+
+                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                        <p:column width="10%">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFuncionarioTitle_postogradsc}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.postogradsc}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFuncionarioTitle_nome}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nome}"/>
+                        </p:column>
+                        <p:column width="15%">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFuncionarioTitle_divisao}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.divisao.sigla}"/>
+                        </p:column>
+                        <p:column width="20%">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFuncionarioTitle_ramal}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.ramal}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{funcionarioController.prepareCreate}" update=":FuncionarioCreateForm" oncomplete="PF('FuncionarioCreateDialog').show()"/>                            
+                            <p:menuButton id="viewButton"  value="#{bundle.View}">
+                                <p:menuitem icon="ui-icon-search" value="Selecionado" update=":FuncionarioViewForm" oncomplete="PF('FuncionarioViewDialog').show()" disabled="#{empty funcionarioController.selected}" />
+                                <p:menuitem icon="ui-icon-search" value="Por Divisão" actionListener="#{divisaoController.prepareCreate}"  update=":SeletorDivisaoForm" oncomplete="PF('SeletorDivisaoDialog').show()" />
+                                <p:menuitem icon="ui-icon-search" value="Todos" actionListener="#{funcionarioController.setFiltro(null)}" update=":FuncionarioListForm:datalist"/>
+                            </p:menuButton>                            
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":FuncionarioEditForm" oncomplete="PF('FuncionarioEditDialog').show()" disabled="#{empty funcionarioController.selected}"/>                            
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{funcionarioController.destroy}" update=":growl,datalist" disabled="#{empty funcionarioController.selected}">
+                                <p:confirm header="Confirmação" message="Confirma a exclusão do registro selecionado?" icon="ui-icon-alert" />
+                            </p:commandButton>
+
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            </p:confirmDialog>                            
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>            
+            <ui:include src="View.xhtml"/>
+            <ui:include src="SeletorDivisao.xhtml" />
+        </ui:define>
+        
+    </ui:composition>
+
+</html>

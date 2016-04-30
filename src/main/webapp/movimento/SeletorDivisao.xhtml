@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SeletorDivisaoDlg" widgetVar="SeletorDivisaoDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.SeletorDivisaoTitle}">
+            <h:form id="SeletorDivisaoForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="true">                        
+                        <p:outputLabel value="Selecione uma Divisão" for="divisao" />                        
+                        <p:selectOneMenu id="divisao" value="#{divisaoController.selected}" converter="omnifaces.SelectItemsConverter" >                            
+                            <f:selectItem itemLabel="Selecione uma divisão" itemValue="" noSelectionOption="true"/>  
+                            <f:selectItems value="#{divisaoController.itemsAvailableSelectOne}" var="divisaoItem"   
+                                           itemLabel="#{divisaoItem.sigla}" itemValue="#{divisaoItem}"/>                             
+                        </p:selectOneMenu>                                                
+                    </p:panelGrid>
+                    <p:commandButton  actionListener="#{movimentoController.setFiltro(divisaoController.selected)}" value="#{bundle.Consultar}" update="display,:MovimentoListForm:datalist,:growl" oncomplete="handleSubmit(args,'SeletorDivisaoDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="SeletorDivisaoDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

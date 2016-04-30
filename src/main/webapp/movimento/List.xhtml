@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:of="http://omnifaces.org/functions">
+
+    <ui:composition template="../template.xhtml">
+        
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListMovimentoTitle}"></h:outputText>
+        </ui:define>
+        
+        <ui:define name="body">
+            <h:form id="MovimentoListForm">
+                <p:panel header="#{bundle.ListMovimentoTitle}">
+                    <p:dataTable id="datalist" value="#{movimentoController.items}" var="item"
+                                 selectionMode="single" selection="#{movimentoController.selected}"
+                                 paginator="true" paginatorPosition="bottom"
+                                 rowKey="#{item.id}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+
+                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                        <p:column width="60">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovimentoTitle_datamovimento}"/>
+                            </f:facet>
+                            <h:outputText value="#{of:formatDate(item.datamovimento.time,'dd/MM/yyyy' )}" />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovimentoTitle_funcionario}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.funcionario.nome}"/>
+                        </p:column>
+                        <p:column width="70">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ViewFuncionarioTitle_divisao}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.funcionario.divisao.sigla}"/>
+                        </p:column>
+                        <p:column width="55">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovimentoTitle_entrada}"/>
+                            </f:facet>
+                            <h:outputText value="#{of:formatDate(item.entrada.time,'HH:mm' )}" />
+                        </p:column>
+                        <p:column width="55">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMovimentoTitle_saida}"/>
+                            </f:facet>
+                            <h:outputText value="#{of:formatDate(item.saida.time,'HH:mm' )}" />
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{movimentoController.prepareCreate}" update=":MovimentoCreateForm" oncomplete="PF('MovimentoCreateDialog').show()"/>
+                            
+                            <p:menuButton id="viewButton"  value="#{bundle.View}">
+                                <p:menuitem icon="ui-icon-search" value="Selecionado" update=":MovimentoViewForm" oncomplete="PF('MovimentoViewDialog').show()" disabled="#{empty movimentoController.selected}" />
+                                <p:menuitem icon="ui-icon-search" value="Por Divisão" actionListener="#{divisaoController.prepareCreate}"  update=":SeletorDivisaoForm" oncomplete="PF('SeletorDivisaoDialog').show()" />
+                                <p:menuitem icon="ui-icon-search" value="Por Funcionário" actionListener="#{funcionarioController.prepareCreate}"  update=":SeletorFuncionarioForm" oncomplete="PF('SeletorFuncionarioDialog').show()" />
+                                <p:menuitem icon="ui-icon-search" value="Todos" actionListener="#{movimentoController.setFiltro(null)}" update=":MovimentoListForm:datalist"/>
+                            </p:menuButton>                            
+                            
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":MovimentoEditForm" oncomplete="PF('MovimentoEditDialog').show()" disabled="#{empty movimentoController.selected}"/>                            
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{movimentoController.destroy}" update=":growl,datalist" disabled="#{empty movimentoController.selected}">
+                                <p:confirm header="Confirmação" message="Confirma a exclusão do registro selecionado?" icon="ui-icon-alert" />
+                            </p:commandButton>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            </p:confirmDialog>                                                        
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+            <ui:include src="SeletorDivisao.xhtml" />
+            <ui:include src="SeletorFuncionario.xhtml" />
+            
+        </ui:define>
+        
+    </ui:composition>
+
+</html>

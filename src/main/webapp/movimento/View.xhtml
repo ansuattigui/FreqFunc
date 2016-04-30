@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:of="http://omnifaces.org/functions">
+
+    <ui:composition>
+
+        <p:dialog id="MovimentoViewDlg" widgetVar="MovimentoViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewMovimentoTitle}">
+            <h:form id="MovimentoViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{movimentoController.selected != null}">
+                        <h:outputText value="#{bundle.ViewMovimentoLabel_funcionario}"/>
+                        <h:outputText value="#{movimentoController.selected.funcionario.nome}" title="#{bundle.ViewMovimentoTitle_funcionario}"/>
+                        <h:outputText value="#{bundle.ViewMovimentoLabel_datamovimento}"/>
+                        <h:outputText value="#{of:formatDate(movimentoController.selected.datamovimento.time,'dd/MM/yyyy' )}" title="#{bundle.ViewMovimentoTitle_datamovimento}"/>
+                        <h:outputText value="#{bundle.ViewMovimentoLabel_entrada}"/>
+                        <h:outputText value="#{of:formatDate(movimentoController.selected.entrada.time,'HH:mm' )}" title="#{bundle.ViewMovimentoTitle_entrada}"/>
+                        <h:outputText value="#{bundle.ViewMovimentoLabel_saida}"/>
+                        <h:outputText value="#{of:formatDate(movimentoController.selected.saida.time,'HH:mm' )}" title="#{bundle.ViewMovimentoTitle_saida}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="MovimentoViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

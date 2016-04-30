@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:of="http://omnifaces.org/functions">
+
+    <ui:composition>
+
+        <p:dialog id="MovimentoCreateDlg" widgetVar="MovimentoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateMovimentoTitle}">
+            <h:form id="MovimentoCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{movimentoController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateMovimentoLabel_funcionario}" for="funcionario" />
+                        <p:selectOneMenu id="funcionario" value="#{movimentoController.selected.funcionario}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="Selecione um funcionário" itemValue="" noSelectionOption="true"/>  
+                            <f:selectItems value="#{funcionarioController.itemsAvailableSelectOne}" var="funcionarioItem"
+                                           itemLabel="#{funcionarioItem.nome}"  itemValue="#{funcionarioItem}"/>
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel value="#{bundle.CreateMovimentoLabel_datamovimento}" for="datamovimento"/>
+                        <p:calendar id="datamovimento" value="#{movimentoController.selected.datamovimento.time}" pattern="dd/MM/yyyy">
+                            <p:ajax event="dateSelect" listener="#{movimentoController.onDateSelect}" update="growl" />
+                        </p:calendar>                        
+                        
+                        <p:outputLabel value="#{bundle.CreateMovimentoLabel_entrada}" for="entrada" />
+                        <p:calendar id="entrada" value="#{movimentoController.selected.entrada.time}" timeOnly="true" pattern="HH:mm" timeControlType="select">
+                            <p:ajax event="dateSelect" listener="#{movimentoController.onTimeSelect}" update="growl" />
+                        </p:calendar>                        
+
+                        <p:outputLabel value="#{bundle.CreateMovimentoLabel_saida}" for="saida" />
+                        <p:calendar id="saida" value="#{movimentoController.selected.saida.time}" timeOnly="true" pattern="HH:mm" timeControlType="select">
+                            <p:ajax event="dateSelect" listener="#{movimentoController.onTimeSelect}" update="growl" />
+                        </p:calendar>                        
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{movimentoController.create}" value="#{bundle.Save}" update="display,:MovimentoListForm:datalist,:growl" oncomplete="handleSubmit(args,'MovimentoCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="MovimentoCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

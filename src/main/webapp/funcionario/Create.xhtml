@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="FuncionarioCreateDlg" widgetVar="FuncionarioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateFuncionarioTitle}">
+            <h:form id="FuncionarioCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{funcionarioController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateFuncionarioLabel_tipopessoal}" for="tipopessoal" />
+                        <p:selectOneMenu id="tipopessoal"  value="#{funcionarioController.selected.tipopessoal}">
+                            <f:selectItem itemLabel="Civil / Militar" itemValue="" noSelectionOption="true"/>  
+                            <f:selectItems value="#{enumeracoes.tipos}" />
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateFuncionarioLabel_postogradsc}" for="postogradsc" />
+                        <p:selectOneMenu id="postogradsc"  value="#{funcionarioController.selected.postogradsc}">
+                            <f:selectItem itemLabel="Selecione o Posto/Grad" itemValue="" noSelectionOption="true"/>  
+                            <f:selectItems value="#{enumeracoes.postos}" />
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateFuncionarioLabel_nome}" for="nome" />
+                        <p:inputText id="nome" value="#{funcionarioController.selected.nome}" title="#{bundle.CreateFuncionarioTitle_nome}" />
+                        
+                        <p:outputLabel value="#{bundle.CreateFuncionarioLabel_divisao}" for="divisao" />                        
+                        <p:selectOneMenu id="divisao" value="#{funcionarioController.selected.divisao}" converter="omnifaces.SelectItemsConverter">                            
+                            <f:selectItem itemLabel="Selecione uma divisão" itemValue="" noSelectionOption="true"/>  
+                            <f:selectItems value="#{divisaoController.itemsAvailableSelectOne}" var="divisaoItem"   
+                                           itemLabel="#{divisaoItem.sigla}" itemValue="#{divisaoItem}"/>                             
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel value="#{bundle.CreateFuncionarioLabel_ramal}" for="ramal" />
+                        <p:inputText id="ramal" value="#{funcionarioController.selected.ramal}" title="#{bundle.CreateFuncionarioTitle_ramal}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{funcionarioController.create}" value="#{bundle.Save}" update="display,:FuncionarioListForm:datalist,:growl" oncomplete="handleSubmit(args,'FuncionarioCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="FuncionarioCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
