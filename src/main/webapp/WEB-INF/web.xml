@@ -25,6 +25,34 @@
     <welcome-file-list>
         <welcome-file>faces/login.xhtml</welcome-file>
     </welcome-file-list>
+    
+    <security-role>
+      <description>Basic User</description>
+      <role-name>user</role-name>
+     </security-role>    
+    <security-role>
+      <description>AdminUser</description>
+      <role-name>admin</role-name>
+    </security-role>
+    
+    <security-constraint>
+        <display-name>AdminAccess</display-name>
+        <web-resource-collection>
+            <web-resource-name>AllAdminOperations</web-resource-name>
+            <description/>
+            <url-pattern>/faces/admin/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>Admin Only Access</description>
+            <role-name>admin</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <description>Secured Login</description>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>    
+    
+    
     <security-constraint>
         <display-name>All Access</display-name>
         <web-resource-collection>

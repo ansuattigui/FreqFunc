@@ -14,6 +14,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -45,10 +46,9 @@ public class User implements Serializable {
     @Column(name = "password", nullable = false)
     private String password;
     
-    @Enumerated(EnumType.STRING)
-    private ProfileUser profile;    
+    @ManyToOne
+    private Uprofiles profile;
     
-
     public User() {
     }
 
@@ -104,21 +104,19 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "com.ctex.cport.modelo.User[ id=" + id + " ]";
-    }
+    }    
 
-    
     /**
      * @return the profile
      */
-    public ProfileUser getProfile() {
+    public Uprofiles getProfile() {
         return profile;
     }
 
     /**
      * @param profile the profile to set
      */
-    public void setProfile(ProfileUser profile) {
+    public void setProfile(Uprofiles profile) {
         this.profile = profile;
     }
-    
 }
