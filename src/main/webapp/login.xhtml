@@ -16,8 +16,7 @@
         
         <ui:define name="body">    
             <p:panel style="width: 280px; margin: 0 auto; margin-top: 30px;">
-                <h:form id="LoginUserForm" prependId="false"
-                    onsubmit="document.getElementById('LoginUserForm').action = 'j_security_check'; ">
+                <form id="LoginUserForm" name="LoginUserForm"  action="j_security_check" >
                     <h:panelGroup id="display">
                         <p:panel
                             style="background-image: url(resources/img/login.fw.png); background-size: contain;
@@ -30,10 +29,11 @@
                             <p:outputLabel value="#{bundle.CreateUserLabel_password}" for="j_password" />
                             <p:password id="j_password" title="#{bundle.CreateUserTitle_password}" required="true" requiredMessage="Informe a senha"/>
                         </p:panelGrid>
+                        <button type="submit" value="Submit" />
                         <p:commandButton type="submit" value="#{bundle.Login}" />
                         <p:commandButton value="#{bundle.Cancel}" type="reset" />
                     </h:panelGroup>
-                </h:form>
+                </form>
             </p:panel>
         </ui:define>
     </ui:composition>
