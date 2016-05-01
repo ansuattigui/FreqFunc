@@ -30,8 +30,8 @@
                             <p:outputLabel value="#{bundle.CreateUserLabel_password}" for="j_password" />
                             <p:password id="j_password" title="#{bundle.CreateUserTitle_password}" required="true" requiredMessage="Informe a senha"/>
                         </p:panelGrid>
-                        <p:commandButton type="submit" value="#{bundle.Login}" update="display,:growl"/>
-                        <p:commandButton value="#{bundle.Cancel}" update="display" type="reset" />
+                        <p:commandButton type="submit" value="#{bundle.Login}" />
+                        <p:commandButton value="#{bundle.Cancel}" type="reset" />
                     </h:panelGroup>
                 </h:form>
             </p:panel>
