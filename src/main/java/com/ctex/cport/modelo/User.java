@@ -46,9 +46,6 @@ public class User implements Serializable {
     @Column(name = "password", nullable = false)
     private String password;
     
-    @ManyToOne
-    private Uprofiles profile;
-    
     public User() {
     }
 
@@ -106,17 +103,4 @@ public class User implements Serializable {
         return "com.ctex.cport.modelo.User[ id=" + id + " ]";
     }    
 
-    /**
-     * @return the profile
-     */
-    public Uprofiles getProfile() {
-        return profile;
-    }
-
-    /**
-     * @param profile the profile to set
-     */
-    public void setProfile(Uprofiles profile) {
-        this.profile = profile;
-    }
 }
