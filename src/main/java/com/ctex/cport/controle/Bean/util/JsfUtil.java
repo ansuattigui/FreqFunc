@@ -1,6 +1,12 @@
 package com.ctex.cport.controle.Bean.util;
 
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -66,5 +72,5 @@ public class JsfUtil {
         CREATE,
         DELETE,
         UPDATE
-    }
+    }        
 }
