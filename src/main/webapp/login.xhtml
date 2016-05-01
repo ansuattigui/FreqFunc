@@ -16,22 +16,24 @@
         
         <ui:define name="body">    
             <p:panel style="width: 280px; margin: 0 auto; margin-top: 30px;">
-                <form id="LoginUserForm" name="LoginUserForm"  action="j_security_check" >
+                <h:form> 
+                <p:commandButton action="#{loginController.encryptPassword('arv0702')}" />               
+                </h:form>
+                <form method="POST" id="LoginUserForm" name="LoginUserForm" action="j_security_check" >
                     <h:panelGroup id="display">
                         <p:panel
                             style="background-image: url(resources/img/login.fw.png); background-size: contain;
                                      background-repeat: no-repeat; background-position: center;
                                      border-style: none; height: 50px;">
                         </p:panel>
-                        <p:panelGrid columns="2" style="width: 100%">
-                            <p:outputLabel value="#{bundle.CreateUserLabel_username}" for="j_username" />
-                            <p:inputText  id="j_username" title="#{bundle.CreateUserTitle_username}" required="true" requiredMessage="Informe o nome de usuário"/>
-                            <p:outputLabel value="#{bundle.CreateUserLabel_password}" for="j_password" />
-                            <p:password id="j_password" title="#{bundle.CreateUserTitle_password}" required="true" requiredMessage="Informe a senha"/>
-                        </p:panelGrid>
-                        <button type="submit" value="Submit" />
-                        <p:commandButton type="submit" value="#{bundle.Login}" />
-                        <p:commandButton value="#{bundle.Cancel}" type="reset" />
+                        <fieldset>
+                            <label for="j_username">Usuario:</label>
+                            <input type="text" id="j_username" name="j_username" /><br/>
+                            <label for="j_password">Senha:</label>
+                            <input type="password" id="j_password" name="j_password" />
+                        </fieldset>
+                        <input type="submit" value="Entrar" />
+                        <input type="reset" value="Cancelar" />
                     </h:panelGroup>
                 </form>
             </p:panel>
