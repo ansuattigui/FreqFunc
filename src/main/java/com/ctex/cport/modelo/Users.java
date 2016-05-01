@@ -13,8 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -29,41 +27,45 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Ralfh
  */
 @Entity
-@Table(name = "uprofiles")
+@Table(name = "users")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Uprofiles.findAll", query = "SELECT u FROM Uprofiles u"),
-    @NamedQuery(name = "Uprofiles.findById", query = "SELECT u FROM Uprofiles u WHERE u.id = :id"),
-    @NamedQuery(name = "Uprofiles.findByProfile", query = "SELECT u FROM Uprofiles u WHERE u.profile = :profile")})
-public class Uprofiles implements Serializable {
+    @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u"),
+    @NamedQuery(name = "Users.findById", query = "SELECT u FROM Users u WHERE u.id = :id"),
+    @NamedQuery(name = "Users.findByPassword", query = "SELECT u FROM Users u WHERE u.password = :password"),
+    @NamedQuery(name = "Users.findByUsername", query = "SELECT u FROM Users u WHERE u.username = :username")})
+public class Users implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "ID")
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "profile")
-    private String profile;
-    @JoinTable(name = "user_profile", joinColumns = {
-        @JoinColumn(name = "profile_id", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "user_id", referencedColumnName = "ID")})
-    @ManyToMany
-    private List<Users> usersList;
+    @Size(min = 1, max = 255)
+    @Column(name = "password")
+    private String password;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "username")
+    private String username;
+    @ManyToMany(mappedBy = "usersList")
+    private List<Uprofiles> uprofilesList;
 
-    public Uprofiles() {
+    public Users() {
     }
 
-    public Uprofiles(Integer id) {
+    public Users(Integer id) {
         this.id = id;
     }
 
-    public Uprofiles(Integer id, String profile) {
+    public Users(Integer id, String password, String username) {
         this.id = id;
-        this.profile = profile;
+        this.password = password;
+        this.username = username;
     }
 
     public Integer getId() {
@@ -74,21 +76,29 @@ public class Uprofiles implements Serializable {
         this.id = id;
     }
 
-    public String getProfile() {
-        return profile;
+    public String getPassword() {
+        return password;
     }
 
-    public void setProfile(String profile) {
-        this.profile = profile;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @XmlTransient
-    public List<Users> getUsersList() {
-        return usersList;
+    public List<Uprofiles> getUprofilesList() {
+        return uprofilesList;
     }
 
-    public void setUsersList(List<Users> usersList) {
-        this.usersList = usersList;
+    public void setUprofilesList(List<Uprofiles> uprofilesList) {
+        this.uprofilesList = uprofilesList;
     }
 
     @Override
@@ -101,10 +111,10 @@ public class Uprofiles implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Uprofiles)) {
+        if (!(object instanceof Users)) {
             return false;
         }
-        Uprofiles other = (Uprofiles) object;
+        Users other = (Users) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -113,7 +123,7 @@ public class Uprofiles implements Serializable {
 
     @Override
     public String toString() {
-        return "com.ctex.cport.modelo.Uprofiles[ id=" + id + " ]";
+        return "com.ctex.cport.modelo.Users[ id=" + id + " ]";
     }
     
 }
