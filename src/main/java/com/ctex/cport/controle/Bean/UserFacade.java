@@ -6,6 +6,10 @@
 package com.ctex.cport.controle.Bean;
 
 import com.ctex.cport.modelo.User;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -34,7 +38,7 @@ public class UserFacade extends AbstractFacade<User> {
         Boolean valido;
         TypedQuery<User> tq = getEntityManager().createNamedQuery("User.findByLogin", User.class);
         tq.setParameter("pusername", usuario);
-        tq.setParameter("ppassword", senha);
+        tq.setParameter("ppassword", encryptPassword(senha));
         try {
             valido = (tq.getSingleResult() != null);
         } catch (NoResultException nre) {
@@ -42,6 +46,21 @@ public class UserFacade extends AbstractFacade<User> {
         }
         return valido;
     }
+    
+   public String encryptPassword(String password) {
+        String encPassword = null;
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(password.getBytes("UTF-8")); // Change this to "UTF-16" if needed
+            byte[] digest = md.digest();
+            BigInteger bigInt = new BigInteger(1, digest);
+            encPassword = bigInt.toString(16);
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+            //Logger.getLogger(PasswordTest.class.getName()).log(Level.SEVERE, null, ex);
+        }       
+        return encPassword;
+    }    
+    
     
     
 }
