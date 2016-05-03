@@ -27,7 +27,7 @@ public class UserController implements Serializable {
     private User selected;
 
     public UserController() {
-        prepareCreate();
+        
     }
 
     public User getSelected() {
