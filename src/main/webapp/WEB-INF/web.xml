@@ -27,7 +27,7 @@
     </welcome-file-list>
     <login-config>
         <auth-method>FORM</auth-method>
-        <realm-name>JDBCRealm</realm-name>
+        <realm-name>jdbcRealm</realm-name>
         <form-login-config>
             <form-login-page>/faces/login.xhtml</form-login-page>
             <form-error-page>/faces/login_fail.xhtml</form-error-page>
