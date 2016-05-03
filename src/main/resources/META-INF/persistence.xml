@@ -5,6 +5,7 @@
     <class>com.ctex.cport.modelo.Divisao</class>
     <class>com.ctex.cport.modelo.Funcionario</class>
     <class>com.ctex.cport.modelo.Movimento</class>
+    <class>com.ctex.cport.modelo.User</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
