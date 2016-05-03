@@ -43,11 +43,7 @@ public class User implements Serializable {
     
     @Size(max = 16)
     @Column(name = "password", nullable = false)
-    private String password;
-    
-    @Enumerated(EnumType.STRING)
-    private ProfileUser profile;    
-    
+    private String password;        
 
     public User() {
     }
@@ -106,19 +102,5 @@ public class User implements Serializable {
         return "com.ctex.cport.modelo.User[ id=" + id + " ]";
     }
 
-    
-    /**
-     * @return the profile
-     */
-    public ProfileUser getProfile() {
-        return profile;
-    }
-
-    /**
-     * @param profile the profile to set
-     */
-    public void setProfile(ProfileUser profile) {
-        this.profile = profile;
-    }
-    
+        
 }
