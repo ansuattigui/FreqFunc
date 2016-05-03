@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 /**
@@ -66,7 +67,9 @@ public class LoginController implements Serializable {
     
     //logout event, invalidate session
     public String logout() {        
-        return  "login?faces-redirect=true";
+        
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return  "login.xhtml";
     }    
 
     /**
