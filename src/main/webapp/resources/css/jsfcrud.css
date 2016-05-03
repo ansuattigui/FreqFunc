@@ -19,3 +19,11 @@
 .ui-button-menu {
     width: 110px;
 }
+
+.ui-panel-cabecalho {
+    background-image: url('/resource/img/banner.png');
+    background-size: auto;
+    background-position: center; 
+    background-repeat: no-repeat; 
+    border-style: none;
+}
