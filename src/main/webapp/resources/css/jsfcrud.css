@@ -21,7 +21,7 @@
 }
 
 .ui-panel-cabecalho {
-    background-image: url(http://localhost:8080/CPort/faces/resources/img/banner.png);
+    background-image: url(http://localhost:8080/FreqFunc/faces/resources/img/banner.png);
     background-position: center; 
     background-repeat: no-repeat; 
     border-style: none;
@@ -29,7 +29,7 @@
 }
 
 .ui-panel-rodape {
-    background-image:url(http://localhost:8080/CPort/faces/resources/img/rodape.png); 
+    background-image:url(http://localhost:8080/FreqFunc/faces/resources/img/rodape.png); 
     background-position: center; 
     background-repeat: no-repeat; 
     border-style: none;
