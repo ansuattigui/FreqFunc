@@ -17,11 +17,11 @@
                 <p:menubar>
                     <p:menuitem value="#{bundle.Home}" outcome="/index" icon="ui-icon-home"/>
                     <p:submenu label="#{bundle.Cadastro}">
-                        <p:menuitem value="Divisão" outcome="/divisao/List.xhtml" />
-                        <p:menuitem value="Funcionário" outcome="/funcionario/List.xhtml" />
+                        <p:menuitem value="Divisão" outcome="/divisao/List" />
+                        <p:menuitem value="Funcionário" outcome="/funcionario/List" />
                     </p:submenu>
                     <p:submenu label="#{bundle.Maintenance}">
-                        <p:menuitem value="Movimento" outcome="/movimento/List.xhtml" />
+                        <p:menuitem value="Movimento" outcome="/movimento/List" />
                     </p:submenu>
                     <p:menuitem value="Logout" action="#{loginController.logout}" />
                 </p:menubar>
@@ -32,11 +32,11 @@
             <h:form>
                 <p:accordionPanel >
                     <p:tab title="Cadastros" >
-                        <p:button id="divisaoButton" icon="" value="Divisão" styleClass="ui-button-menu"    outcome="/divisao/List.xhtml" />
-                        <p:button id="funcionarioButton"   icon="" value="Funcionário" styleClass="ui-button-menu" outcome="/funcionario/List.xhtml"/>
+                        <p:button id="divisaoButton" icon="" value="Divisão" styleClass="ui-button-menu"  outcome="/divisao/List" />
+                        <p:button id="funcionarioButton"   icon="" value="Funcionário" styleClass="ui-button-menu" outcome="/funcionario/List"/>
                     </p:tab>
                     <p:tab title="Controle">
-                        <p:button id="movimentoButton" icon="" value="Movimento" styleClass="ui-button-menu"  outcome="/movimento/List.xhtml" />
+                        <p:button id="movimentoButton" icon="" value="Movimento" styleClass="ui-button-menu"  outcome="/movimento/List" />
                     </p:tab>
                     <p:tab title="Configurações">
                         <p:outputLabel for="tema" value="Tema:" /> 
@@ -51,11 +51,6 @@
         
         <ui:define name="center">
             <ui:insert name="body"></ui:insert>
-        </ui:define>
-        
-        <ui:define name="rodape">
-                <p:panel style="height:25px; background-image:url(resources/img/rodape.png); background-size: auto;
-                    background-position: center; background-repeat: no-repeat; border-style: none;" />
         </ui:define>
         
     </ui:composition>

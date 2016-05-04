@@ -21,9 +21,17 @@
 }
 
 .ui-panel-cabecalho {
-    background-image: url('/resource/img/banner.png');
-    background-size: auto;
+    background-image: url(http://localhost:8080/CPort/faces/resources/img/banner.png);
     background-position: center; 
     background-repeat: no-repeat; 
     border-style: none;
+    height: 78px;
+}
+
+.ui-panel-rodape {
+    background-image:url(http://localhost:8080/CPort/faces/resources/img/rodape.png); 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    border-style: none;
+    height:25px; 
 }

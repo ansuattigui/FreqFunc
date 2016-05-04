@@ -26,8 +26,13 @@ public class LoginController implements Serializable {
     private String senha;
     private String msg;
     private String usuario;
+    private Boolean isLogin;
  
     private static final long serialVersionUID = 1094801825228386363L;
+    
+    public LoginController() {
+        isLogin = Boolean.TRUE;
+    }
     
     public String getSenha() {
         return senha;
@@ -57,6 +62,7 @@ public class LoginController implements Serializable {
     public String validaUsuarioSenha() {        
         boolean valido = getEjbFacade().validate(usuario, senha);        
         if (valido) {
+            setIsLogin(Boolean.FALSE);
             return "index.xhtml";
         } else {
             JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("UserLoginFailed"));
@@ -77,6 +83,20 @@ public class LoginController implements Serializable {
      */
     private UserFacade getEjbFacade() {
         return ejbFacade;
+    }
+
+    /**
+     * @return the isLogin
+     */
+    public Boolean getIsLogin() {
+        return isLogin;
+    }
+
+    /**
+     * @param isLogin the isLogin to set
+     */
+    public void setIsLogin(Boolean isLogin) {
+        this.isLogin = isLogin;
     }
     
     

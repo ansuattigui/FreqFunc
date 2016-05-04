@@ -16,11 +16,11 @@
         
         <p:layout fullPage="false" style="width: 800px; height: 600px; margin: 0 auto;">               
             <p:layoutUnit position="north">
-                <p:panel class="ui-panel-cabecalho" style="height:78px;"/>    
+                <p:panel styleClass="ui-panel-cabecalho"/>    
                 <ui:insert name="menuhor"></ui:insert> 
             </p:layoutUnit>
                                 
-            <p:layoutUnit position="west" size="180">
+            <p:layoutUnit position="west" size="180" rendered="#{!loginController.isLogin}">
                 <ui:insert name="menuver"></ui:insert>
             </p:layoutUnit>
             
@@ -29,7 +29,7 @@
             </p:layoutUnit>            
             
             <p:layoutUnit position="south">
-                <ui:insert name="rodape" ></ui:insert>
+                <p:panel styleClass="ui-panel-rodape"/>               
             </p:layoutUnit>
             
         </p:layout>
