@@ -1,20 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FreqFunc-ListaMovimentos" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1f611cd4-cbae-4b95-bcab-c2b8e6a33561">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FreqFunc-ListaMovimentos" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1f611cd4-cbae-4b95-bcab-c2b8e6a33561">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<subDataset name="DSMovimentos" uuid="93ed1e20-f9a1-4ec3-a468-08341e243939"/>
 	<queryString>
-		<![CDATA[SELECT
-     movimento.`DATAMOVIMENTO` AS movimento_DATAMOVIMENTO,
-     movimento.`ENTRADA` AS movimento_ENTRADA,
-     movimento.`SAIDA` AS movimento_SAIDA,
-     funcionario.`NOME` AS funcionario_NOME,
-     funcionario.`POSTOGRADSC` AS funcionario_POSTOGRADSC,
-     funcionario.`RAMAL` AS funcionario_RAMAL,
-     divisao.`sigla` AS divisao_sigla
-FROM
-     `funcionario` funcionario INNER JOIN `movimento` movimento ON funcionario.`ID` = movimento.`FUNCIONARIO_ID`
-     INNER JOIN `divisao` divisao ON funcionario.`DIVISAO_ID` = divisao.`ID`]]>
+		<![CDATA[]]>
 	</queryString>
 	<field name="movimento_DATAMOVIMENTO" class="java.sql.Date"/>
 	<field name="movimento_ENTRADA" class="java.sql.Timestamp"/>

@@ -27,7 +27,7 @@ import org.primefaces.event.SelectEvent;
 public class MovimentoController implements Serializable {
 
     @EJB
-    private com.ctex.cport.controle.Bean.MovimentoFacade ejbFacade;
+    private MovimentoFacade ejbFacade;
     private List<Movimento> items = null;
     private Movimento selected;
     private Object filtro;

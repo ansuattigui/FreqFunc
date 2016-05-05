@@ -23,6 +23,12 @@
                     <p:submenu label="#{bundle.Maintenance}">
                         <p:menuitem value="Movimento" outcome="/movimento/List" />
                     </p:submenu>
+                    <p:submenu label="Relatórios">
+                        <p:submenu label="Movimento">
+                            <p:menuitem value="Total" action="#{relatorioMovimentoController.init}" />
+                        </p:submenu>
+                    </p:submenu>
+                    
                     <p:menuitem value="Logout" action="#{loginController.logout}" />
                 </p:menubar>
             </h:form>
