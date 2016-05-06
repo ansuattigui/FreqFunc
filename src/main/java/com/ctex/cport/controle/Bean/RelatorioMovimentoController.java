@@ -58,12 +58,12 @@ public class RelatorioMovimentoController implements Serializable {
     
     JasperPrint jasperPrint;
     public void init() throws JRException{        
-        JRBeanCollectionDataSource beanCollectionDataSource=new JRBeanCollectionDataSource(getListaMovimentos());
+        JRBeanCollectionDataSource   beanCollectionDataSource=new JRBeanCollectionDataSource(getListaMovimentos());
         String  reportPath=  FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/relatorios/movimento/FreqFunc-ListaMovimentos.jasper");
         jasperPrint=JasperFillManager.fillReport(reportPath, new HashMap(),beanCollectionDataSource);
     }
      
-    public void getPdf() throws JRException, IOException{
+    public void pdf() throws JRException, IOException{
          init();
          HttpServletResponse httpServletResponse=(HttpServletResponse)FacesContext.getCurrentInstance().getExternalContext().getResponse();
          httpServletResponse.addHeader("Content-disposition", "attachment; filename=report.pdf");

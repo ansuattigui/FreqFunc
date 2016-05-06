@@ -3,17 +3,18 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<subDataset name="DSMovimentos" uuid="93ed1e20-f9a1-4ec3-a468-08341e243939"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
-	<field name="movimento_DATAMOVIMENTO" class="java.sql.Date"/>
-	<field name="movimento_ENTRADA" class="java.sql.Timestamp"/>
-	<field name="movimento_SAIDA" class="java.sql.Timestamp"/>
-	<field name="funcionario_NOME" class="java.lang.String"/>
-	<field name="funcionario_POSTOGRADSC" class="java.lang.String"/>
-	<field name="funcionario_RAMAL" class="java.lang.String"/>
-	<field name="divisao_sigla" class="java.lang.String"/>
+	<field name="ramal" class="java.lang.String">
+		<fieldDescription><![CDATA[funcionario.ramal]]></fieldDescription>
+	</field>
+	<field name="nome" class="java.lang.String">
+		<fieldDescription><![CDATA[funcionario.nome]]></fieldDescription>
+	</field>
+	<field name="sigla" class="java.lang.String">
+		<fieldDescription><![CDATA[funcionario.divisao.sigla]]></fieldDescription>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -108,37 +109,33 @@
 			<textField>
 				<reportElement x="10" y="5" width="72" height="20" uuid="8e275b02-37a6-4da9-b072-a6178f31e1da"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{funcionario_POSTOGRADSC}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="92" y="5" width="213" height="20" uuid="3329cffb-2f78-47eb-ac92-39290c510abc"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{funcionario_NOME}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="321" y="5" width="84" height="20" uuid="c8efadb2-3d77-4eb9-b934-12e2c474cfe4"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{divisao_sigla}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{sigla}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="428" y="5" width="100" height="20" uuid="b6e1723a-6b8a-40a0-b3db-fa8a4eb7ea63"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{funcionario_RAMAL}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{ramal}]]></textFieldExpression>
 			</textField>
-			<textField pattern="HH.mm">
+			<textField pattern="HH.mm" isBlankWhenNull="false">
 				<reportElement x="543" y="4" width="75" height="20" uuid="6445f180-d164-4d6d-b628-a572eb796860"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{movimento_ENTRADA}]]></textFieldExpression>
 			</textField>
 			<textField pattern="HH.mm">
 				<reportElement x="628" y="5" width="75" height="20" uuid="22de3aa9-ae80-4ad3-9549-273ed102e784"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{movimento_SAIDA}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
 				<reportElement x="719" y="4" width="75" height="20" uuid="87c92420-feb6-4a6a-afe1-950ae7bf52c0"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{movimento_DATAMOVIMENTO}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
