@@ -6,22 +6,29 @@
 package com.ctex.cport.controle.Bean;
 
 import com.ctex.cport.modelo.Movimento;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javafx.event.ActionEvent;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperRunManager;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
@@ -42,27 +49,54 @@ public class RelatorioMovimentoController implements Serializable {
     public RelatorioMovimentoController() {
     }
     
-    private List<Movimento> listaMovimentos;
+    private static List<Movimento> listaMovimentos;
  
     @EJB 
-    MovimentoFacade movimentoFacade;
+    private static MovimentoFacade movimentoFacade;
      
-    public List<Movimento> getListaMovimentos() {
+    public static List<Movimento> getListaMovimentos() {
         listaMovimentos=movimentoFacade.findAll();
         return listaMovimentos;
     }
  
     public void setListaMovimentos(List<Movimento> listaMovimentos) {
-        this.listaMovimentos = listaMovimentos;
+        RelatorioMovimentoController.listaMovimentos = listaMovimentos;
     }
     
     JasperPrint jasperPrint;
     public void init() throws JRException{        
-        JRBeanCollectionDataSource   beanCollectionDataSource=new JRBeanCollectionDataSource(getListaMovimentos());
-        String  reportPath=  FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/relatorios/movimento/FreqFunc-ListaMovimentos.jasper");
+        JRBeanCollectionDataSource beanCollectionDataSource=new JRBeanCollectionDataSource(getListaMovimentos());
+        String  reportPath=  FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/relatorios/movimento/Movimento.jasper");
         jasperPrint=JasperFillManager.fillReport(reportPath, new HashMap(),beanCollectionDataSource);
     }
      
+    public void geraRelatorio() {
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        ServletContext context = (ServletContext) externalContext.getContext();
+        String arquivo = context.getRealPath("/resources/relatorios/movimento/Movimento.jasper");
+ 
+        JRDataSource jrds = new JRBeanCollectionDataSource(getListaMovimentos());   
+        gerarRelatorioWeb(jrds, null, arquivo);
+    }
+    
+    private void gerarRelatorioWeb(JRDataSource jrds, Map<String, Object> parametros, String arquivo) {
+        ServletOutputStream servletOutputStream = null;
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
+ 
+        try {
+            servletOutputStream = response.getOutputStream();            
+            JasperRunManager.runReportToPdfStream(new FileInputStream(new File(arquivo)), servletOutputStream, parametros, jrds);            
+            response.setContentType("application/pdf");
+            servletOutputStream.flush();
+            servletOutputStream.close();
+            context.renderResponse();
+            context.responseComplete();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }    
+    
     public void pdf() throws JRException, IOException{
          init();
          HttpServletResponse httpServletResponse=(HttpServletResponse)FacesContext.getCurrentInstance().getExternalContext().getResponse();
@@ -70,52 +104,5 @@ public class RelatorioMovimentoController implements Serializable {
          ServletOutputStream servletOutputStream=httpServletResponse.getOutputStream();
          JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
          FacesContext.getCurrentInstance().responseComplete();
-    }
-    
-    public void DOCX(ActionEvent actionEvent) throws JRException, IOException{
-        init();
-       HttpServletResponse httpServletResponse=(HttpServletResponse)FacesContext.getCurrentInstance().getExternalContext().getResponse();
-       httpServletResponse.addHeader("Content-disposition", "attachment; filename=report.docx");
-       ServletOutputStream servletOutputStream=httpServletResponse.getOutputStream();
-       JRDocxExporter docxExporter=new JRDocxExporter();
-       docxExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-       docxExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, servletOutputStream);
-       docxExporter.exportReport();
-       FacesContext.getCurrentInstance().responseComplete();
-   }
-     public void XLSX(ActionEvent actionEvent) throws JRException, IOException{
-        init();
-       HttpServletResponse httpServletResponse=(HttpServletResponse)FacesContext.getCurrentInstance().getExternalContext().getResponse();
-      httpServletResponse.addHeader("Content-disposition", "attachment; filename=report.xlsx");
-       ServletOutputStream servletOutputStream=httpServletResponse.getOutputStream();
-       JRXlsxExporter docxExporter=new JRXlsxExporter();
-       docxExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-       docxExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, servletOutputStream);
-       docxExporter.exportReport();
-       FacesContext.getCurrentInstance().responseComplete();
-   }
-      public void ODT(ActionEvent actionEvent) throws JRException, IOException{
-       init();
-       HttpServletResponse httpServletResponse=(HttpServletResponse)FacesContext.getCurrentInstance().getExternalContext().getResponse();
-      httpServletResponse.addHeader("Content-disposition", "attachment; filename=report.odt");
-       ServletOutputStream servletOutputStream=httpServletResponse.getOutputStream();
-       JROdtExporter docxExporter=new JROdtExporter();
-       docxExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-       docxExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, servletOutputStream);
-       docxExporter.exportReport();
-       FacesContext.getCurrentInstance().responseComplete();
-   }
-       public void PPT(ActionEvent actionEvent) throws JRException, IOException{
-       init();
-       HttpServletResponse httpServletResponse=(HttpServletResponse)FacesContext.getCurrentInstance().getExternalContext().getResponse();
-      httpServletResponse.addHeader("Content-disposition", "attachment; filename=report.pptx");
-       ServletOutputStream servletOutputStream=httpServletResponse.getOutputStream();
-       JRPptxExporter docxExporter=new JRPptxExporter();
-       docxExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-       docxExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, servletOutputStream);
-       docxExporter.exportReport();
-       FacesContext.getCurrentInstance().responseComplete();
-   }    
-    
-    
+    }            
 }

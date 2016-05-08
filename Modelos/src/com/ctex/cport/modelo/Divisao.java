@@ -11,23 +11,10 @@ import java.io.Serializable;
  *
  * @author Ralfh
  */
-@Entity
-@Table(name = "divisao")
-@NamedQueries({
-    @NamedQuery(name = "Divisao.findAll", query = "SELECT d FROM Divisao d"),
-    @NamedQuery(name = "Divisao.findById", query = "SELECT d FROM Divisao d WHERE d.id = :id"),
-    @NamedQuery(name = "Divisao.findBySigla", query = "SELECT d FROM Divisao d WHERE d.sigla = :sigla"),
-    @NamedQuery(name = "Divisao.findByNome", query = "SELECT d FROM Divisao d WHERE d.nome = :nome")})
 public class Divisao implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Size(max = 25)
-    @Column(name = "sigla")
     private String sigla;
-    @Size(max = 255)
-    @Column(name = "nome")
     private String nome;
 
     public Divisao() {

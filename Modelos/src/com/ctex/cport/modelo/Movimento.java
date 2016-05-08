@@ -7,38 +7,17 @@ package com.ctex.cport.modelo;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  *
  * @author ralfh
  */
-@Entity
-@NamedQueries({
-    @NamedQuery(name = "Movimento.FindAll", query = "SELECT m FROM Movimento m "),
-    @NamedQuery(name = "Movimento.FindAllByDivisao", query = "SELECT m FROM Movimento m WHERE m.funcionario.divisao = :pdivisao"),
-    @NamedQuery(name = "Movimento.FindAllByFuncionario", query = "SELECT m FROM Movimento m WHERE m.funcionario = :pfuncionario")
-})
 public class Movimento implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;    
-    @ManyToOne
     private Funcionario funcionario;
-    @Temporal(TemporalType.DATE)
     private Calendar datamovimento;
-    @Temporal(TemporalType.TIMESTAMP)
     private Calendar entrada;
-    @Temporal(TemporalType.TIMESTAMP)
     private Calendar saida;
 
     public Movimento() {

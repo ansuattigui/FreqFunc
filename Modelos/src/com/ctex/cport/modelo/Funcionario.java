@@ -14,25 +14,14 @@ import java.util.List;
  *
  * @author ralfh
  */
-@Entity
-@NamedQueries({
-    @NamedQuery(name = "Funcionario.FindAll", query = "SELECT f FROM Funcionario f "),
-    @NamedQuery(name = "Funcionario.FindAllByDivisao", query = "SELECT f FROM Funcionario f WHERE f.divisao = :pdivisao")
-})
 public class Funcionario implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;    
-    @Enumerated(EnumType.STRING)
     private TipoPessoal tipopessoal;
-    @Enumerated(EnumType.STRING)
     private PostoGradSc postogradsc;    
     private String nome;    
-    @ManyToOne
     private Divisao divisao;
     private String ramal;
-    @OneToMany(mappedBy = "funcionario")
     private List<Movimento> movimentos;
 
     public Long getId() {
