@@ -24,6 +24,9 @@
                         <p:menuitem value="Movimento" outcome="/movimento/List" />
                     </p:submenu>
                     <p:submenu label="Relatórios">
+                        <p:submenu label="Divisão">
+                            <p:menuitem value="Total" actionListener="#{relatorioDivisaoController.geraRelatorio}"/>
+                        </p:submenu>
                         <p:submenu label="Movimento">
                             <p:menuitem value="Total" actionListener="#{relatorioMovimentoController.geraRelatorio}"/>
                         </p:submenu>

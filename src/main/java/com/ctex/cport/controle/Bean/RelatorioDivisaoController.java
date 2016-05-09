@@ -5,7 +5,7 @@
  */
 package com.ctex.cport.controle.Bean;
 
-import com.ctex.cport.modelo.Movimento;
+import com.ctex.cport.modelo.Divisao;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -27,52 +27,58 @@ import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
  *
  * @author ralfh
  */
-@ManagedBean(name = "relatorioMovimentoController")
+@ManagedBean(name = "relatorioDivisaoController")
 @SessionScoped
-public class RelatorioMovimentoController implements Serializable {
-    
+public class RelatorioDivisaoController implements Serializable {
+
+    @EJB 
+    private DivisaoFacade divisaoFacade;
+
     /**
      * Creates a new instance of RelatorioMovimentoController
      */
-    public RelatorioMovimentoController() {
+    public RelatorioDivisaoController() {
+    }
+    
+    private Divisao[] arrayDivisoes; 
+     
+    /**
+     * @return the listaDivisoes
+     */
+    public Divisao[] getArrayDivisoes() {        
+        List<Divisao> lista = divisaoFacade.findAll();        
+        arrayDivisoes = lista.toArray(new Divisao[lista.size()]);        
+        return arrayDivisoes;
     }
 
-    @EJB 
-    private MovimentoFacade movimentoFacade;
-        
-    private Movimento[] arrayMovimentos;
- 
-     
-    public Movimento[] getArrayMovimentos() {
-        List<Movimento> lista = movimentoFacade.findAll();        
-        arrayMovimentos = lista.toArray(new Movimento[lista.size()]);        
-        return arrayMovimentos;
-    }
- 
-    public void setArrayMovimentos(Movimento[] arrayMovimentos) {
-        this.arrayMovimentos = arrayMovimentos;
+    /**
+     * @param arrayDivisoes
+     */
+    public void setArrayDivisoes(Divisao[] arrayDivisoes) {
+        this.arrayDivisoes = arrayDivisoes;
     }
     
     public void geraRelatorio() {
-        
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         ServletContext context = (ServletContext) externalContext.getContext();
-        String arquivo = context.getRealPath("WEB-INF/relatorios/movimento/movimento.jasper");
-        String destino = "movimento.html";
+        String arquivo = context.getRealPath("WEB-INF/relatorios/divisao/divisao.jasper");
+        String destino = "divisao.html";
  
-        JRDataSource jrds = new JRBeanArrayDataSource(getArrayMovimentos());   
+        JRDataSource jrds = new JRBeanArrayDataSource(getArrayDivisoes());   
         gerarRelatorioWeb(jrds, null, arquivo, destino);
     }
     
     private void gerarRelatorioWeb(JRDataSource jrds, Map<String, Object> parametros, String arquivo, String destino) {
-
         ServletOutputStream servletOutputStream = null;
         FacesContext context = FacesContext.getCurrentInstance();
+//        ServletResponse response = (ServletResponse) context.getExternalContext().getResponse();
+        
         HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
-        response.addHeader("Content-disposition", "attachment; filename=report.pdf");
+        //response.addHeader("Content-disposition", "attachment; filename=report.pdf");
  
         try {
-            servletOutputStream = response.getOutputStream();                        
+            servletOutputStream = response.getOutputStream();            
+            
 //            JasperRunManager.runReportToPdfFile(arquivo, destino , parametros, jrds);
 //            JasperRunManager.runReportToHtmlFile(arquivo, destino, parametros, jrds);
 //            JasperRunManager.runReportToPdfStream(new FileInputStream(new File(arquivo)), servletOutputStream, parametros, jrds);            
