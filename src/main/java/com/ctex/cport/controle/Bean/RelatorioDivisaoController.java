@@ -62,20 +62,20 @@ public class RelatorioDivisaoController implements Serializable {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         ServletContext context = (ServletContext) externalContext.getContext();
         String arquivo = context.getRealPath("WEB-INF/relatorios/divisao/divisao.jasper");
-        String destino = "divisao.html";
+        String destino = "divisao.pdf";
  
         JRDataSource jrds = new JRBeanArrayDataSource(getArrayDivisoes());   
         gerarRelatorioWeb(jrds, null, arquivo, destino);
     }
     
     private void gerarRelatorioWeb(JRDataSource jrds, Map<String, Object> parametros, String arquivo, String destino) {
+        
         ServletOutputStream servletOutputStream = null;
         FacesContext context = FacesContext.getCurrentInstance();
-//        ServletResponse response = (ServletResponse) context.getExternalContext().getResponse();
         
         HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
-        //response.addHeader("Content-disposition", "attachment; filename=report.pdf");
- 
+        response.setContentType("application/pdf");
+        
         try {
             servletOutputStream = response.getOutputStream();            
             
@@ -84,9 +84,11 @@ public class RelatorioDivisaoController implements Serializable {
 //            JasperRunManager.runReportToPdfStream(new FileInputStream(new File(arquivo)), servletOutputStream, parametros, jrds);            
             
             JasperPrint jasperPrint = JasperFillManager.fillReport(arquivo, parametros, jrds);
-            JasperExportManager.exportReportToPdfFile(jasperPrint, destino);
             
-            response.setContentType("text/html;charset=UTF-8");
+            JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
+            
+//            JasperExportManager.exportReportToPdfFile(jasperPrint, destino);
+            
             servletOutputStream.flush();
             servletOutputStream.close();
             context.renderResponse();
