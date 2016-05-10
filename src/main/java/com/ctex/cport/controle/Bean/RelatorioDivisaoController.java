@@ -59,11 +59,13 @@ public class RelatorioDivisaoController implements Serializable {
     }
     
     public void geraRelatorio() {
+        
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         ServletContext context = (ServletContext) externalContext.getContext();
+        
         String arquivo = context.getRealPath("WEB-INF/relatorios/divisao/divisao.jasper");
         String destino = "divisao.pdf";
- 
+         
         JRDataSource jrds = new JRBeanArrayDataSource(getArrayDivisoes());   
         gerarRelatorioWeb(jrds, null, arquivo, destino);
     }
@@ -72,6 +74,7 @@ public class RelatorioDivisaoController implements Serializable {
         
         ServletOutputStream servletOutputStream = null;
         FacesContext context = FacesContext.getCurrentInstance();
+//        ServletContext servletcontext = (ServletContext) context;
         
         HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
         response.setContentType("application/pdf");
@@ -79,14 +82,8 @@ public class RelatorioDivisaoController implements Serializable {
         try {
             servletOutputStream = response.getOutputStream();            
             
-//            JasperRunManager.runReportToPdfFile(arquivo, destino , parametros, jrds);
-//            JasperRunManager.runReportToHtmlFile(arquivo, destino, parametros, jrds);
-//            JasperRunManager.runReportToPdfStream(new FileInputStream(new File(arquivo)), servletOutputStream, parametros, jrds);            
-            
-            JasperPrint jasperPrint = JasperFillManager.fillReport(arquivo, parametros, jrds);
-            
-            JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
-            
+            JasperPrint jasperPrint = JasperFillManager.fillReport(arquivo, parametros, jrds);           
+            JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);            
 //            JasperExportManager.exportReportToPdfFile(jasperPrint, destino);
             
             servletOutputStream.flush();

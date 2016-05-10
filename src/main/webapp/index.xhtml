@@ -5,8 +5,20 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
 
     <ui:composition template="/template.xhtml">
+
+    <script type="text/javascript">
+    function start() {
+        PF('statusDialog').show();
+    }
+
+    function stop() {
+        PF('statusDialog').hide();
+    }
+    </script>    
+        
         
         <ui:define name="title">
             <h:outputText value="#{bundle.AppName}"></h:outputText>
@@ -25,7 +37,9 @@
                     </p:submenu>
                     <p:submenu label="Relatórios">
                         <p:submenu label="Divisão">
-                            <p:menuitem value="Total" actionListener="#{relatorioDivisaoController.geraRelatorio}"/>
+                            <p:menuitem ajax="false"  value="Total" action="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s" >                                        
+                                <p:fileDownload value="#{relatorioDivisao.report}" />
+                            </p:menuitem>
                         </p:submenu>
                         <p:submenu label="Movimento">
                             <p:menuitem value="Total" actionListener="#{relatorioMovimentoController.geraRelatorio}"/>
@@ -59,6 +73,11 @@
         </ui:define>
         
         <ui:define name="center">
+            
+            <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
+                <p:graphicImage value="/img/ajax-loaer.gif"/>
+            </p:dialog>
+            
             <ui:insert name="body"></ui:insert>
         </ui:define>
         
