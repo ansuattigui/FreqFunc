@@ -6,11 +6,15 @@
 package com.ctex.cport.controle.Bean;
 
 import com.ctex.cport.modelo.Divisao;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -28,29 +32,38 @@ import org.primefaces.model.StreamedContent;
  * @author ralfh
  */
 @ManagedBean(name = "relatorioDivisao")
-public final class RelatorioDivisao {
+@SessionScoped
+public class RelatorioDivisao implements Serializable {
     
     private StreamedContent report;
     private InputStream stream;
     private String jasper;
+    private String destino;
     private ExternalContext context;
     private JRDataSource jrDataSource;
     private JasperPrint jasperPrint;
     private Divisao[] arrayDivisoes;
-    
+    private String contentType;
+        
     @EJB 
     private DivisaoFacade divisaoFacade;
 
+    public void preparaRelatorio() {
+        try {                
+            JasperExportManager.exportReportToPdfFile(getJasperPrint(), destino);
+        } catch (JRException ex) {
+            Logger.getLogger(RelatorioDivisao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        contentType = FacesContext.getCurrentInstance().getExternalContext().getMimeType(destino);
+    }
+    
 
     /**
      * Creates a new instance of RelatorioDivisao
      */
     public RelatorioDivisao() { 
-        JasperExportManager.exportReportToPdfStream(getJasperPrint(), servletOutputStream);            
-//            JasperExportManager.exportReportToPdfFile(jasperPrint, destino);
-        
-    }
-    
+        destino = getContext().getRealPath("reports")+"/divisao.pdf";
+    }    
 
     /**
      * @return the jasper
@@ -115,10 +128,10 @@ public final class RelatorioDivisao {
 
     /**
      * @return the report
+     * @throws java.io.FileNotFoundException
      */
-    public StreamedContent getReport() {
-        InputStream is = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(getJasper());
-        report = new DefaultStreamedContent(is,"application/pdf");
+    public StreamedContent getReport() throws FileNotFoundException { 
+        report = new DefaultStreamedContent(new FileInputStream(destino),contentType);
         return report;
     }
 
@@ -164,5 +177,18 @@ public final class RelatorioDivisao {
         this.jasperPrint = jasperPrint;
     }
 
-    
+    /**
+     * @return the destino
+     */
+    public String getDestino() {
+        return destino;
+    }
+
+    /**
+     * @param destino the destino to set
+     */
+    public void setDestino(String destino) {
+        this.destino = destino;
+    }
+
 }
