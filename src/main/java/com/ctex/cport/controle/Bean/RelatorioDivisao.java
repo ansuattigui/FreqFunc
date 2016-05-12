@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,6 +19,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.swing.ImageIcon;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -38,7 +40,7 @@ public class RelatorioDivisao implements Serializable {
     private StreamedContent report;
     private InputStream stream;
     private String jasper;
-    private String destino;
+    private String relatorio;
     private ExternalContext context;
     private JRDataSource jrDataSource;
     private JasperPrint jasperPrint;
@@ -48,21 +50,12 @@ public class RelatorioDivisao implements Serializable {
     @EJB 
     private DivisaoFacade divisaoFacade;
 
-    public void preparaRelatorio() {
-        try {                
-            JasperExportManager.exportReportToPdfFile(getJasperPrint(), destino);
-        } catch (JRException ex) {
-            Logger.getLogger(RelatorioDivisao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        contentType = FacesContext.getCurrentInstance().getExternalContext().getMimeType(destino);
-    }
-    
-
+ 
     /**
      * Creates a new instance of RelatorioDivisao
      */
     public RelatorioDivisao() { 
-        destino = getContext().getRealPath("reports")+"/divisao.pdf";
+//        relatorio = getContext().getRealPath("reports")+ "\"  +"divisao.pdf";
     }    
 
     /**
@@ -131,7 +124,7 @@ public class RelatorioDivisao implements Serializable {
      * @throws java.io.FileNotFoundException
      */
     public StreamedContent getReport() throws FileNotFoundException { 
-        report = new DefaultStreamedContent(new FileInputStream(destino),contentType);
+        report = new DefaultStreamedContent(new FileInputStream(relatorio),contentType);
         return report;
     }
 
@@ -161,8 +154,14 @@ public class RelatorioDivisao implements Serializable {
      * @return the jasperPrint
      */
     public JasperPrint getJasperPrint() {
+        
+        ImageIcon logotipo = new ImageIcon(getContext().getRealPath("/resources/img/logo-ctex.png"));        
+        
+        HashMap hm = new HashMap<>();
+        hm.put("par_logotipo",logotipo.getImage());
+        
         try {   
-            jasperPrint = JasperFillManager.fillReport(getJasper(), null, getJrDataSource());
+            jasperPrint = JasperFillManager.fillReport(getJasper(),hm, getJrDataSource());
         } catch (JRException ex) {
             Logger.getLogger(RelatorioDivisao.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -178,17 +177,24 @@ public class RelatorioDivisao implements Serializable {
     }
 
     /**
-     * @return the destino
+     * @return the relatorio
      */
-    public String getDestino() {
-        return destino;
+    public String getRelatorio() {        
+        relatorio = "/reports/divisao.pdf";
+        try {                
+            JasperExportManager.exportReportToPdfFile(getJasperPrint(), getContext().getRealPath(relatorio));
+        } catch (JRException ex) {
+            Logger.getLogger(RelatorioDivisao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        contentType = FacesContext.getCurrentInstance().getExternalContext().getMimeType(relatorio);
+        return relatorio;
     }
 
     /**
-     * @param destino the destino to set
+     * @param relatorio the relatorio to set
      */
-    public void setDestino(String destino) {
-        this.destino = destino;
+    public void setRelatorio(String relatorio) {
+        this.relatorio = relatorio;
     }
 
 }

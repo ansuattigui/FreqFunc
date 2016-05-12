@@ -6,16 +6,6 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     
-    <script type="text/javascript">
-        function showStatus() {
-            statusDialog.show();
-        }
-
-        function hideStatus() {
-            statusDialog.hide();
-        }
-    </script>
-
     <ui:composition template="/template.xhtml">        
         
         <ui:define name="title">
@@ -23,12 +13,7 @@
         </ui:define>
         
         <ui:define name="menuhor">
-            <h:form id="menuForm">
-                
-                <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
-                    <p:graphicImage value="/img/ajax-loaer.gif"/>
-                </p:dialog>
-                                
+            <h:form id="menuForm">                
                 <p:menubar>
                     <p:menuitem value="#{bundle.Home}" outcome="/index" icon="ui-icon-home"/>
                     <p:submenu label="#{bundle.Cadastro}">
@@ -40,9 +25,7 @@
                     </p:submenu>
                     <p:submenu label="Relatórios">
                         <p:submenu label="Divisão">
-                            <p:menuitem ajax="false"  value="Total" icon="ui-icon-arrowthick-1-s" actionListener="#{relatorioDivisao.preparaRelatorio}" 
-                                        oncomplete="PF('ShowReportDialog').show()">                                        
-                            </p:menuitem>
+                            <p:menuitem ajax="false"  value="Total" icon="ui-icon-arrowthick-1-s" outcome="/report" />                                                                    
                         </p:submenu>
                         <p:submenu label="Movimento">
                             <p:menuitem value="Total" actionListener="#{relatorioMovimentoController.geraRelatorio}"/>
@@ -73,15 +56,12 @@
                     </p:tab>
                 </p:accordionPanel>
             </h:form>
-            
-            <ui:include src="report.xhtml"/>
-            
         </ui:define>
         
         <ui:define name="center">                        
             <ui:insert name="body"></ui:insert>
         </ui:define>
-        
+                            
     </ui:composition>
 
 </html>
