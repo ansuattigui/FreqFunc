@@ -10,7 +10,7 @@
                 
         <ui:define name="body">
             <h:form id="FuncionarioListForm">
-                <p:panel header="#{bundle.ListFuncionarioTitle}">
+                <p:panel header="#{bundle.ListFuncionarioTitle}" class="ui-sem-borda">
                     <p:dataTable id="datalist" value="#{funcionarioController.items}" var="item"
                                  selectionMode="single" selection="#{funcionarioController.selected}"
                                  paginator="true" paginatorPosition="bottom"

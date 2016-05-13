@@ -35,3 +35,16 @@
     border-style: none;
     height:25px; 
 }
+
+.ui-panel-centro {
+    background-image:url(http://localhost:8080/FreqFunc/faces/resources/img/splash.png); 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    border-style: none;
+    height: 90%;
+    width: auto;
+}
+
+.ui-sem-borda {
+    border: none;
+}

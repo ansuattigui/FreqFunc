@@ -9,8 +9,8 @@
     <ui:composition template="../index.xhtml">
 
         <ui:define name="body" id="body">
-            <h:form id="DivisaoListForm">                
-                <p:panel header="#{bundle.ListDivisaoTitle}">
+            <h:form id="DivisaoListForm" >                
+                <p:panel header="#{bundle.ListDivisaoTitle}" class="ui-sem-borda">
                     <p:dataTable id="datalist" value="#{divisaoController.items}" var="item"
                                  selectionMode="single" selection="#{divisaoController.selected}"
                                  paginator="true" paginatorPosition="bottom"
