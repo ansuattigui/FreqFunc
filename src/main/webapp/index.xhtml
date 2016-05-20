@@ -25,15 +25,19 @@
                     </p:submenu>
                     <p:submenu label="Relatórios">
                         <p:submenu label="Divisão">
-                            <p:menuitem ajax="false"  value="Total" icon="ui-icon-arrowthick-1-s" outcome="/relatorios/divisao" />                                                                    
+                            <p:menuitem ajax="false"  value="Total" icon="ui-icon-arrowthick-1-s" outcome="/relatorios/divisao/divisao" />                                                                    
                         </p:submenu>
                         <p:submenu label="Movimento">
-                            <p:menuitem value="Total" actionListener="#{relatorioMovimentoController.geraRelatorio}"/>
+                            <p:menuitem ajax="false" value="Total"  icon="ui-icon-arrowthick-1-s" action="#{relatorioMovimento.setModelo(null)}" />                            
+                            <p:menuitem icon="ui-icon-search" value="Por Divisão" actionListener="#{divisaoController.prepareCreate}" update=":SeletorDivisaoMovimentoForm" oncomplete="PF('SeletorDivisaoMovimentoDialog').show()" />
                         </p:submenu>
                     </p:submenu>                                        
                     <p:menuitem value="Logout" action="#{loginController.logout}" />
                 </p:menubar>
             </h:form>
+            
+            <ui:include src="/relatorios/movimento/SeletorDivisao.xhtml" />
+
         </ui:define>
                 
         <ui:define name="center">                        

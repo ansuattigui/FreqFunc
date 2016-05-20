@@ -32,6 +32,14 @@ public class MovimentoFacade extends AbstractFacade<Movimento> {
         super(Movimento.class);
     }
     
+    @Override
+    public List<Movimento> findAll() {
+        TypedQuery<Movimento> tq;
+        tq = getEntityManager().createNamedQuery("Movimento.FindAll", Movimento.class);
+        List<Movimento> lista = tq.getResultList();
+        return lista;
+    }    
+    
     public List<Movimento> findAll(Divisao div) {       
         TypedQuery<Movimento> tq;
         if (div!=null) {

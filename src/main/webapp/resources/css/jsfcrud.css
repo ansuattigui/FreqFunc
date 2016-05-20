@@ -1,5 +1,5 @@
 .ui-widget {
-    font-size: 12px !important;
+    font-size: 14px !important;
 }
 .ui-layout-north {
     z-index: 20 !important;
@@ -41,9 +41,19 @@
     background-position: center; 
     background-repeat: no-repeat; 
     border-style: none;
-    height: 90%;
+    height: 99%;
     width: auto;
 }
+
+.ui-panel-login {
+    background-image:url(http://localhost:8080/FreqFunc/faces/resources/img/login.fw.png); 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: contain;
+    border-style: none;
+    height: 80px;
+}
+
 
 .ui-sem-borda {
     border: none;

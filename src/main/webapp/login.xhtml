@@ -12,13 +12,9 @@
 
         <ui:define name="center">    
             <p:panel style="width: 280px; margin: 0 auto; margin-top: 30px;">
-                <h:form id="LoginUserForm">
-                    <h:panelGroup id="display">
-                        <p:panel
-                            style="background-image: url(resources/img/login.fw.png); background-size: contain;
-                                     background-repeat: no-repeat; background-position: center;
-                                     border-style: none; height: 50px;">
-                        </p:panel>
+                <h:form id="LoginUserForm" style="height: 250px;">
+                    <h:panelGroup id="display" style="height: 100%;">
+                        <p:panel styleClass="ui-panel-login" />
                         <p:panelGrid columns="2" style="width: 100%">
                             <p:outputLabel value="#{bundle.CreateUserLabel_username}" for="username" />
                             <p:inputText id="username" value="#{loginController.usuario}" title="#{bundle.CreateUserTitle_username}" required="true" requiredMessage="Informe o nome de usuário" />

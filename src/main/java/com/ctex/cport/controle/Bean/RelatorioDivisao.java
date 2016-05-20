@@ -6,9 +6,6 @@
 package com.ctex.cport.controle.Bean;
 
 import com.ctex.cport.modelo.Divisao;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -26,8 +23,6 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
 
 /**
  *
@@ -37,8 +32,6 @@ import org.primefaces.model.StreamedContent;
 @SessionScoped
 public class RelatorioDivisao implements Serializable {
     
-    private StreamedContent report;
-    private InputStream stream;
     private String jasper;
     private String relatorio;
     private ExternalContext context;
@@ -117,37 +110,6 @@ public class RelatorioDivisao implements Serializable {
      */
     public void setArrayDivisoes(Divisao[] arrayDivisoes) {
         this.arrayDivisoes = arrayDivisoes;
-    }
-
-    /**
-     * @return the report
-     * @throws java.io.FileNotFoundException
-     */
-    public StreamedContent getReport() throws FileNotFoundException { 
-        report = new DefaultStreamedContent(new FileInputStream(relatorio),contentType);
-        return report;
-    }
-
-    /**
-     * @param report the report to set
-     */
-    public void setReport(StreamedContent report) {
-        this.report = report;
-    }
-
-    /**
-     * @return the stream
-     */
-    public InputStream getStream() {        
-        stream = getContext().getResourceAsStream(getJasper());
-        return stream;
-    }
-
-    /**
-     * @param stream the stream to set
-     */
-    public void setStream(InputStream stream) {
-        this.stream = stream;
     }
 
     /**

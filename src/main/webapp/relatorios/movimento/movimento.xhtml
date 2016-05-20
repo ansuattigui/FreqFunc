@@ -6,12 +6,15 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition template="../report.xhtml">
+    <ui:composition template="../../report.xhtml">
         <ui:define name="title_report">
-            <p:outputLabel value="Lista de Divisões do CTEx" />
+            <p:outputLabel value="Relatório de Frequência do Pessoal do CTEx" />
         </ui:define>
         <ui:define name="media">
-            <p:media id="ShowReportDlg"  value="#{relatorioDivisao.relatorio}" height="100%" width="100%" player="pdf" />
+            
+            
+            
+            <p:media id="ShowReportDlg"  value="#{relatorioMovimento.relatorio}" height="100%" width="100%" player="pdf" cache="false"  />
         </ui:define>
     </ui:composition>
 </html>
