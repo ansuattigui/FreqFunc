@@ -19,7 +19,7 @@
                                            itemLabel="#{divisaoItem.sigla}" itemValue="#{divisaoItem}"/>                             
                         </p:selectOneMenu>                                                
                     </p:panelGrid>
-                    <p:commandButton  action="#{relatorioMovimento.setModelo(divisaoController.selected)}" value="#{bundle.Consultar}" update="display,:growl" oncomplete="handleSubmit(args,'SeletorDivisaoMovimentoDialog');" />
+                    <p:commandButton  action="#{relatorioMovimento.setModelo(divisaoController.selected)}" value="#{bundle.Consultar}" update="@all" />
                     <p:commandButton value="#{bundle.Cancel}" onclick="SeletorDivisaoMovimentoDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

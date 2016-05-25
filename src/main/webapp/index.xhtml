@@ -28,8 +28,9 @@
                             <p:menuitem ajax="false"  value="Total" icon="ui-icon-arrowthick-1-s" outcome="/relatorios/divisao/divisao" />                                                                    
                         </p:submenu>
                         <p:submenu label="Movimento">
-                            <p:menuitem ajax="false" value="Total"  icon="ui-icon-arrowthick-1-s" action="#{relatorioMovimento.setModelo(null)}" />                            
-                            <p:menuitem icon="ui-icon-search" value="Por Divisão" actionListener="#{divisaoController.prepareCreate}" update=":SeletorDivisaoMovimentoForm" oncomplete="PF('SeletorDivisaoMovimentoDialog').show()" />
+                            <p:menuitem ajax="false" value="Total"  icon="ui-icon-arrowthick-1-s" action="#{relatorioMovimento.setModelo(null)}" update="@all" />                            
+                            <p:menuitem icon="ui-icon-search" value="Por Divisão" actionListener="#{divisaoController.prepareCreate}" oncomplete="PF('SeletorDivisaoMovimentoDialog').show()" />
+                            <p:menuitem icon="ui-icon-search" value="Por Período" actionListener="#{relatorioMovimento.prepareCreate}" oncomplete="PF('SeletorPeriodoMovimentoDialog').show()" />
                         </p:submenu>
                     </p:submenu>                                        
                     <p:menuitem value="Logout" action="#{loginController.logout}" />
@@ -37,12 +38,13 @@
             </h:form>
             
             <ui:include src="/relatorios/movimento/SeletorDivisao.xhtml" />
+            <ui:include src="/relatorios/movimento/SeletorPeriodo.xhtml" />
 
         </ui:define>
                 
         <ui:define name="center">                        
             <ui:insert name="body">
-                <p:panel styleClass="ui-panel-centro"/>
+                <p:panel id="panel-centro" styleClass="ui-panel-centro"/>
             </ui:insert>            
         </ui:define>
                             

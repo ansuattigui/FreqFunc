@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SeletorPeriodoMovimentoDlg" widgetVar="SeletorPeriodoMovimentoDialog" modal="true" resizable="false" appendTo="@(body)" header="Selecione o período desejado">
+            <h:form id="SeletorPeriodoMovimentoForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="true">                                                
+                        <p:outputLabel value="Início" for="datainicio"/>
+                        <p:calendar id="datainicio" value="#{relatorioMovimento.dataInicio}" pattern="dd/MM/yyyy" required="true">
+                            <p:ajax event="dateSelect" listener="#{relatorioMovimento.onDateSelect}" update="growl" />
+                        </p:calendar>                        
+                        
+                        <p:outputLabel value="Início" for="datafim"/>
+                        <p:calendar id="datafim" value="#{relatorioMovimento.dataFim}" pattern="dd/MM/yyyy" required="true">
+                            <p:ajax event="dateSelect" listener="#{relatorioMovimento.onDateSelect}" update="growl" />
+                        </p:calendar>                                                
+                        
+                        <p:outputLabel value="Selecione uma Divisão" for="divisao" />    
+                        <p:selectOneMenu id="divisao" value="#{relatorioMovimento.divisao}" converter="omnifaces.SelectItemsConverter" >                            
+                            <f:selectItem itemLabel="Todas" itemValue="" noSelectionOption="true"/>  
+                            <f:selectItems value="#{divisaoController.itemsAvailableSelectOne}" var="divisaoItem"   
+                                           itemLabel="#{divisaoItem.sigla}" itemValue="#{divisaoItem}"/>                             
+                        </p:selectOneMenu>                                                
+                    </p:panelGrid>
+                    <p:commandButton  action="#{relatorioMovimento.setModelo}" value="#{bundle.Consultar}" update="@all" />
+                    <p:commandButton value="#{bundle.Cancel}" onclick="SeletorPeriodoMovimentoDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
