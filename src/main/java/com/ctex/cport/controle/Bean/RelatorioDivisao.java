@@ -48,7 +48,6 @@ public class RelatorioDivisao implements Serializable {
      * Creates a new instance of RelatorioDivisao
      */
     public RelatorioDivisao() { 
-//        relatorio = getContext().getRealPath("reports")+ "\"  +"divisao.pdf";
     }    
 
     /**
@@ -115,19 +114,15 @@ public class RelatorioDivisao implements Serializable {
     /**
      * @return the jasperPrint
      */
-    public JasperPrint getJasperPrint() {
-        
-        ImageIcon logotipo = new ImageIcon(getContext().getRealPath("/resources/img/logo-ctex.png"));        
-        
+    public JasperPrint getJasperPrint() {        
+        ImageIcon logotipo = new ImageIcon(getContext().getRealPath("/resources/img/logo-ctex.png"));                
         HashMap hm = new HashMap<>();
-        hm.put("par_logotipo",logotipo.getImage());
-        
+        hm.put("par_logotipo",logotipo.getImage());        
         try {   
             jasperPrint = JasperFillManager.fillReport(getJasper(),hm, getJrDataSource());
         } catch (JRException ex) {
             Logger.getLogger(RelatorioDivisao.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         return jasperPrint;
     }
 
@@ -158,5 +153,17 @@ public class RelatorioDivisao implements Serializable {
     public void setRelatorio(String relatorio) {
         this.relatorio = relatorio;
     }
+    
+    public String setReport() {        
+        relatorio = "/reports/divisao.pdf";
+        try { 
+            JasperExportManager.exportReportToPdfFile(getJasperPrint(), getContext().getRealPath(relatorio));
+        } catch (JRException ex) {
+            Logger.getLogger(RelatorioDivisao.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+        return "/relatorios/divisao/divisao";        
+    }    
+    
+    
 
 }

@@ -21,7 +21,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ComponentSystemEvent;
 import javax.swing.ImageIcon;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -63,7 +62,8 @@ public class RelatorioMovimento implements Serializable {
      * Creates a new instance of RelatorioDivisao
      */
     public RelatorioMovimento() { 
-        sdf = new SimpleDateFormat("dd-mm-yyyy");
+        sdf = new SimpleDateFormat("dd-MM-yyyy");
+        divisao = null;
     }    
 
     /**
@@ -119,6 +119,9 @@ public class RelatorioMovimento implements Serializable {
 
     public Movimento[] getArrayMovimento() {
         List<Movimento> lista;
+        
+//        if (testar divisao e testar datas)
+        
         lista = movimentoFacade.findAll();        
         arrayMovimento = lista.toArray(new Movimento[lista.size()]);        
         return arrayMovimento;
@@ -179,37 +182,37 @@ public class RelatorioMovimento implements Serializable {
         this.jasperPrint = jasperPrint;
     }
 
-    public void setReport() {        
+    /**
+     * @return 
+     */
+    public String setReport() {        
         relatorio = "/reports/movimento.pdf";
+        this.nomeRelatorio = "Relação dos que entraram ou saíram fora do horário";
+        String escopo = "";
         try { 
-            if ("".equals(divisao.getSigla())) {
-                JasperExportManager.exportReportToPdfFile(getJasperPrint(), getContext().getRealPath(relatorio));
-            } else {
-                
+            if ((dataInicio != null) && (dataFim != null)) {
+                if (dataInicio.equals(dataFim)) {
+                    escopo = " / Movimento no dia ".concat(sdf.format(dataInicio));
+                } else {
+                    escopo = " / Movimento no periodo de ".concat(sdf.format(dataInicio)).concat(" à ").concat(sdf.format(dataFim));
+                }
             }
             
-        } catch (JRException ex) {
-            Logger.getLogger(RelatorioMovimento.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }    
-    
-    /**
-     * @param filtro
-     */
-    public void setReport(Object filtro) {        
-        relatorio = "/reports/movimento.pdf";
-        try { 
-            if (filtro instanceof Divisao) {    
-                JasperExportManager.exportReportToPdfFile(getJasperPrint(filtro), getContext().getRealPath(relatorio));
+            if (divisao != null) {                                    
+                escopoRelatorio = "Por Divisão: ";
+                escopoRelatorio = escopoRelatorio.concat(divisao.getSigla()).concat(escopo);
+                JasperExportManager.exportReportToPdfFile(getJasperPrint(divisao), getContext().getRealPath(relatorio));
+            } else {
+                escopoRelatorio = "Total";
+                escopoRelatorio = escopoRelatorio.concat(escopo);
+                JasperExportManager.exportReportToPdfFile(getJasperPrint(), getContext().getRealPath(relatorio));
             }
         } catch (JRException ex) {
             Logger.getLogger(RelatorioMovimento.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }        
+        return "/relatorios/movimento/movimento";
     }
-    
-    public void onPrerender(ComponentSystemEvent event) {    
-    }      
+
     
     public String getRelatorio() {
         return relatorio;
@@ -228,45 +231,7 @@ public class RelatorioMovimento implements Serializable {
     public Object getModelo() {
         return modelo;
     }
-
-    /**
-     * @param modelo the modelo to set
-     * @return 
-     */
-    public String setModelo(Object modelo) {
-        this.modelo = modelo;
-        this.nomeRelatorio = "Relação dos que entraram ou saíram fora do horário";
-        if (modelo instanceof Divisao) {
-            String div = ((Divisao)modelo).getSigla();
-            escopoRelatorio = "Por Divisão - ".concat(div);
-            setReport(modelo);
-        } else if (modelo == null) {
-            escopoRelatorio = "Total";
-            setReport();
-        }
-        return "/relatorios/movimento/movimento";
-    }
-    
-    public String setPeriodo() {
-        this.nomeRelatorio = "Relação dos que entraram ou saíram fora do horário";
-        String escopo;
-        if (dataInicio.equals(dataFim)) {
-            escopo = "Movimento no dia ".concat(sdf.format(dataInicio));
-        } else {
-            escopo = "Movimento no periodo de ".concat(sdf.format(dataInicio)).concat(" à ").concat(sdf.format(dataFim));
-        }
-        if ("".equals(divisao.getSigla())) {
-            this.escopoRelatorio = escopo;
-        } else {
-            this.escopoRelatorio = "Por Divisão - ".concat(divisao.getSigla()).concat(" / ").concat(escopo);
-        }            
-        
-        setReport();
-        
-        return "/relatorios/movimento/movimento";
-    }
-    
-  
+          
     /**
      * @return the hora
      */

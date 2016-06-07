@@ -24,8 +24,14 @@ import javax.persistence.TemporalType;
 @Entity
 @NamedQueries({
     @NamedQuery(name = "Movimento.FindAll", query = "SELECT m FROM Movimento m "),
+    @NamedQuery(name = "Movimento.FindAllByDia", query = "SELECT m FROM Movimento m WHERE m.datamovimento = :pdata"),
+    @NamedQuery(name = "Movimento.FindAllByPeriodo", query = "SELECT m FROM Movimento m WHERE m.datamovimento between :pdatainicio and :pdatafim"),
     @NamedQuery(name = "Movimento.FindAllByDivisao", query = "SELECT m FROM Movimento m WHERE m.funcionario.divisao = :pdivisao"),
-    @NamedQuery(name = "Movimento.FindAllByFuncionario", query = "SELECT m FROM Movimento m WHERE m.funcionario = :pfuncionario")
+    @NamedQuery(name = "Movimento.FindAllByDivisaoByDia", query = "SELECT m FROM Movimento m WHERE m.funcionario.divisao = :pdivisao and m.datamovimento = :pdata"),
+    @NamedQuery(name = "Movimento.FindAllByDivisaoByPeriodo", query = "SELECT m FROM Movimento m WHERE m.funcionario.divisao = :pdivisao and m.datamovimento between :pdatainicio and :pdatafim"),
+    @NamedQuery(name = "Movimento.FindAllByFuncionario", query = "SELECT m FROM Movimento m WHERE m.funcionario = :pfuncionario"),
+    @NamedQuery(name = "Movimento.FindAllByFuncionarioByDia", query = "SELECT m FROM Movimento m WHERE m.funcionario = :pfuncionario and m.datamovimento = :pdata"),
+    @NamedQuery(name = "Movimento.FindAllByFuncionarioByPeriodo", query = "SELECT m FROM Movimento m WHERE m.funcionario = :pfuncionario and m.datamovimento between :pdatainicio and :pdatafim")
 })
 public class Movimento implements Serializable {
     private static final long serialVersionUID = 1L;

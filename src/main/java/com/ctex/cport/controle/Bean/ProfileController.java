@@ -2,7 +2,7 @@ package com.ctex.cport.controle.Bean;
 
 import com.ctex.cport.controle.Bean.util.JsfUtil;
 import com.ctex.cport.controle.Bean.util.JsfUtil.PersistAction;
-import com.ctex.cport.modelo.User;
+import com.ctex.cport.modelo.Profile;
 import java.io.Serializable;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -17,24 +17,23 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.inject.Named;
 
-@Named("userController")
+@Named("profileController")
 @SessionScoped
-public class UserController implements Serializable {
+public class ProfileController implements Serializable {
 
     @EJB
-    private UserFacade ejbFacade;
-    private List<User> items = null;
-    private User selected;
+    private com.ctex.cport.controle.Bean.ProfileFacade ejbFacade;
+    private List<Profile> items = null;
+    private Profile selected;
 
-    public UserController() {
-
+    public ProfileController() {
     }
 
-    public User getSelected() {
+    public Profile getSelected() {
         return selected;
     }
 
-    public void setSelected(User selected) {
+    public void setSelected(Profile selected) {
         this.selected = selected;
     }
 
@@ -44,36 +43,36 @@ public class UserController implements Serializable {
     protected void initializeEmbeddableKey() {
     }
 
-    private UserFacade getFacade() {
+    private ProfileFacade getFacade() {
         return ejbFacade;
     }
 
-    public User prepareCreate() {
-        selected = new User();
+    public Profile prepareCreate() {
+        selected = new Profile();
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("UserCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ProfileCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("UserUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("ProfileUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("UserDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("ProfileDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<User> getItems() {
+    public List<Profile> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
@@ -108,30 +107,29 @@ public class UserController implements Serializable {
         }
     }
 
-    //Rotina de Login
-    public User getUser(java.lang.Integer id) {
+    public Profile getProfile(java.lang.Integer id) {
         return getFacade().find(id);
     }
 
-    public List<User> getItemsAvailableSelectMany() {
+    public List<Profile> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<User> getItemsAvailableSelectOne() {
+    public List<Profile> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = User.class)
-    public static class UserControllerConverter implements Converter {
+    @FacesConverter(forClass = Profile.class)
+    public static class ProfileControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            UserController controller = (UserController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "userController");
-            return controller.getUser(getKey(value));
+            ProfileController controller = (ProfileController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "profileController");
+            return controller.getProfile(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -151,11 +149,11 @@ public class UserController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof User) {
-                User o = (User) object;
+            if (object instanceof Profile) {
+                Profile o = (Profile) object;
                 return getStringKey(o.getId());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), User.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Profile.class.getName()});
                 return null;
             }
         }

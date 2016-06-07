@@ -29,7 +29,7 @@
                                            itemLabel="#{divisaoItem.sigla}" itemValue="#{divisaoItem}"/>                             
                         </p:selectOneMenu>                                                
                     </p:panelGrid>
-                    <p:commandButton  action="#{relatorioMovimento.setModelo}" value="#{bundle.Consultar}" update="@all" />
+                    <p:commandButton  action="#{relatorioMovimento.setReport}" value="#{bundle.Consultar}" update="@all" />
                     <p:commandButton value="#{bundle.Cancel}" onclick="SeletorPeriodoMovimentoDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

@@ -6,9 +6,10 @@
     <class>com.ctex.cport.modelo.Funcionario</class>
     <class>com.ctex.cport.modelo.Movimento</class>
     <class>com.ctex.cport.modelo.User</class>
+    <class>com.ctex.cport.modelo.Profile</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
-      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+      <property name="javax.persistence.schema-generation.database.action" value="create-or-extend-tables"/>
     </properties>
   </persistence-unit>
 </persistence>

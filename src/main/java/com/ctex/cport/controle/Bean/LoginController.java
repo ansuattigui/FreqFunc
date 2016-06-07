@@ -9,7 +9,7 @@ import com.ctex.cport.controle.Bean.util.JsfUtil;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
@@ -18,7 +18,7 @@ import javax.inject.Named;
  * @author Ralfh
  */
 @Named("loginController")
-@SessionScoped
+@RequestScoped
 public class LoginController implements Serializable {
     
     @EJB

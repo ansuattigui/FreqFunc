@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -40,7 +41,11 @@ public class User implements Serializable {
     
     @Size(max = 16)
     @Column(name = "password", nullable = false)
-    private String password;        
+    private String password;      
+
+    
+    @ManyToOne
+    private Profile profile;
 
     public User() {
     }
@@ -97,6 +102,20 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "com.ctex.cport.modelo.User[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the profile
+     */
+    public Profile getProfile() {
+        return profile;
+    }
+
+    /**
+     * @param profile the profile to set
+     */
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
         
