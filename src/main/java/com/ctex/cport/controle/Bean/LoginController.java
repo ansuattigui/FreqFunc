@@ -6,6 +6,8 @@
 package com.ctex.cport.controle.Bean;
 
 import com.ctex.cport.controle.Bean.util.JsfUtil;
+import com.ctex.cport.controle.Bean.util.SessionContext;
+import com.ctex.cport.modelo.User;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
@@ -58,21 +60,22 @@ public class LoginController implements Serializable {
  
     //validate login
     public String validaUsuarioSenha() {        
-        boolean valido = getEjbFacade().validate(usuario, senha);        
-        if (valido) {
-            return "index.xhtml";
+        User user = getEjbFacade().validate(usuario, senha);        
+        if (user!=null) {  
+            SessionContext.getInstance().setAttribute("usuarioLogado", usuario);
+            return "/index.xhtml?faces-redirect=true";
         } else {
             JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("UserLoginFailed"));
-            return "login.xhtml";
-        }
-        
+            FacesContext.getCurrentInstance().validationFailed();
+            return "";
+        }        
     }
     
     //logout event, invalidate session
-    public String logout() {        
-        
-        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        return  "login.xhtml";
+    public String logout() {                
+        SessionContext.getInstance().encerrarSessao();
+        JsfUtil.addSuccessMessage("Logout realizado com sucesso !");
+        return  "login.xhtml?faces-redirect=true";
     }    
 
     /**

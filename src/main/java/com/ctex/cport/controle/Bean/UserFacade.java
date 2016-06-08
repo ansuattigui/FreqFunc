@@ -34,17 +34,17 @@ public class UserFacade extends AbstractFacade<User> {
         super(User.class);
     }    
     
-    public Boolean validate(String usuario, String senha)  {
-        Boolean valido;
+    public User validate(String usuario, String senha)  {        
+        User user;        
         TypedQuery<User> tq = getEntityManager().createNamedQuery("User.findByLogin", User.class);
         tq.setParameter("pusername", usuario);
         tq.setParameter("ppassword", encryptPassword(senha));
         try {
-            valido = (tq.getSingleResult() != null);
+            user = tq.getSingleResult();
         } catch (NoResultException nre) {
-            valido = false;
+            user = null;
         }
-        return valido;
+        return user;
     }
     
    public String encryptPassword(String password) {
