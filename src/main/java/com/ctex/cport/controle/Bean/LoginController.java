@@ -75,7 +75,7 @@ public class LoginController implements Serializable {
     public String logout() {                
         SessionContext.getInstance().encerrarSessao();
         JsfUtil.addSuccessMessage("Logout realizado com sucesso !");
-        return  "login.xhtml?faces-redirect=true";
+        return  "/security/login.xhtml?faces-redirect=true";
     }    
 
     /**

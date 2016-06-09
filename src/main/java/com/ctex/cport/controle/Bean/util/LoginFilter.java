@@ -112,7 +112,7 @@ public class LoginFilter implements Filter {
         if (user == null) {
             String contextPath = ((HttpServletRequest) request).getContextPath();
             ((HttpServletResponse) response).sendRedirect(contextPath
-                                    + "/security/login.xhtml");
+                                    + "/login.xhtml");
         } else {
             chain.doFilter(request, response);
         }
