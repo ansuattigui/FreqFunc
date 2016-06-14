@@ -42,6 +42,10 @@
             <from-outcome>userList</from-outcome>
             <to-view-id>/user/List.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>profileList</from-outcome>
+            <to-view-id>/profile/List.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
     <navigation-rule>
         <from-view-id>/divisao/List.xhtml</from-view-id>
